@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <charset="UTF-8">
+    <name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Curtidas Pro</title>
+    <style>
+        /* Estilização para deixar a página moderna */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #485870ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 { color: #1c1e21; margin-bottom: 20px; }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box; /* Garante que o padding não quebre a largura */
+            font-size: 16px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-curtir { background-color: #1877f2; color: white; }
+        .btn-limpar { background-color: #9c1428ff; color: #e9366bff; }
+        
+        button:hover { opacity: 0.8; }
+
+        #feedback {
+            background-color: #f0f2f5;
+            padding: 15px;
+            border-radius: 8px;
+            color: #65676b;
+            font-size: 14px;
+            min-height: 20px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Curtidas</h2>
+        
+        <input type="text" id="nomeInput" placeholder="Digite seu nome para curtir">
+        
+        <div class="button-group">
+            <button class="btn-curtir" onclick="adicionarCurtida()">Curtir</button>
+            <button class="btn-limpar" onclick="limparTudo()">Limpar</button>
+        </div>
+
+        <p id="feedback">Ninguém curtiu</p>
+    </div>
+
+    <script>
+        // Carrega os dados salvos ou inicia vazio
+        let listaCurtidas = JSON.parse(localStorage.getItem('curtidas')) || [];
+        
+        // Atualiza a tela assim que abre a página
+        atualizarInterface();
+
+        function adicionarCurtida() {
+            const input = document.getElementById('nomeInput');
+            const nome = input.value.trim();
+
+            if (nome === "") {
+                alert("Por favor, digite um nome!");
+                return;
+            }
+
+            if (!listaCurtidas.includes(nome)) {
+                listaCurtidas.push(nome);
+                localStorage.setItem('curtidas', JSON.stringify(listaCurtidas));
+                atualizarInterface();
+            } else {
+                alert("Você já curtiu!");
+            }
+
+            input.value = "";
+            input.focus();
+        }
+
+        function limparTudo() {
+            if (confirm("Deseja remover todas as curtidas?")) {
+                listaCurtidas = [];
+                localStorage.removeItem('curtidas');
+                atualizarInterface();
+            }
+        }
+
+        function atualizarInterface() {
+            const feedback = document.getElementById('feedback');
+            const total = listaCurtidas.length;
+
+            if (total === 0) {
+                feedback.innerText = "Ninguém curtiu";
+            } else if (total === 1) {
+                feedback.innerText = `${listaCurtidas[0]} curtiu`;
+            } else if (total === 2) {
+                feedback.innerText = `${listaCurtidas[0]} e ${listaCurtidas[1]} curtiram`;
+            } else {
+                feedback.innerText = `${listaCurtidas[0]}, ${listaCurtidas[1]} e mais ${total - 2} pessoas curtiram`;
+            }
+        }
+    </script>
+</body>
+</html>
