@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de Usuários GitHub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #24292e; /* Cor do GitHub */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        #listaUsuarios {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .usuario-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+        }
+
+        .usuario-item:hover { background-color: #f8f9fa; }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+        }
+
+        .username {
+            font-weight: bold;
+            color: #0366d6;
+            text-decoration: none;
+        }
+
+        .error-msg {
+            color: #d93025;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>🔎 Buscar no GitHub</h2>
+        
+        <div class="search-box">
+            <input type="text" id="inputBusca" placeholder="Digite o nome do usuário...">
+            <button onclick="buscarUsuarios()">Buscar</button>
+        </div>
+
+        <div id="resultado">
+            <ul id="listaUsuarios"></ul>
+        </div>
+    </div>
